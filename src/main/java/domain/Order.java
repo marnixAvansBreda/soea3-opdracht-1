@@ -1,7 +1,5 @@
 package domain;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Order {
@@ -14,7 +12,7 @@ public class Order {
         this.orderNr = orderNr;
         this.isStudentOrder = isStudentOrder;
 
-        tickets = new ArrayList<MovieTicket>();
+        tickets = new ArrayList<>();
     }
 
     public int getOrderNr() {
