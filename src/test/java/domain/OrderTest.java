@@ -17,332 +17,228 @@ public class OrderTest {
     private MovieScreening msWeekend = new MovieScreening(movie, saturday, 13);
 
     @Test
-    public void noTickets() {
-        Order order = new Order(1, false);
+    public void calculatePriceTwoForOneOnWeekday()
+    {
+        Order orderForTwo = new Order(1, false);
 
-        double price = order.calculatePrice();
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
 
-        assertEquals(0.0, price, 0);
+        double price = orderForTwo.calculatePrice();
+
+        assertEquals( 9.0, price, 0 );
     }
 
     @Test
-    public void secondTicketWeekend() {
-        Order order = new Order(1, false);
+    public void calculatePriceThreeForTwoOnWeekday()
+    {
+        Order orderForTwo = new Order(1, false);
 
-        order.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
-        order.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 3));
 
-        double price = order.calculatePrice();
+        double price = orderForTwo.calculatePrice();
 
-        assertEquals(26, price, 0);
+        assertEquals( 18.0, price, 0 );
     }
 
     @Test
-    public void secondTicketStudentWeekend() {
-        Order order = new Order(1, true);
+    public void calculatePriceStudentTwoForOne()
+    {
 
-        order.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
-        order.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
-        order.addSeatReservation(new MovieTicket(msWeekend, false, 1, 3));
-        order.addSeatReservation(new MovieTicket(msWeekend, false, 1, 4));
+        Order orderForTwo = new Order(1, true);
 
-        double price = order.calculatePrice();
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
 
-        assertEquals(26, price, 0);
+        double price = orderForTwo.calculatePrice();
+
+        assertEquals( 9.0, price, 0 );
     }
 
     @Test
-    public void secondTicketWeekday() {
-        Order order = new Order(1, false);
+    public void calculatePriceStudentThreeForTwo()
+    {
+        Order orderForTwo = new Order(1, true);
 
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 3));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 3));
 
-        double price = order.calculatePrice();
+        double price = orderForTwo.calculatePrice();
 
-        assertEquals(18, price, 0);
+        assertEquals( 18.0, price, 0 );
     }
 
     @Test
-    public void premium() {
-        Order order = new Order(1, false);
+    public void calculatePriceForFiveOnWeekend()
+    {
+        Order orderForFive = new Order(1, false);
 
-        order.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 3));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 4));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 5));
 
-        double price = order.calculatePrice();
+        double price = orderForFive.calculatePrice();
 
-        assertEquals(12, price, 0);
+        assertEquals( 65, price, 0 );
     }
 
     @Test
-    public void studentLessThanSixTickets() {
-        Order order = new Order(1, true);
+    public void calculatePriceForSixOnWeekend()
+    {
+        Order orderForFive = new Order(1, false);
 
-        order.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
-        order.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 3));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 4));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 5));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 6));
 
-        double price = order.calculatePrice();
+        double price = orderForFive.calculatePrice();
 
-        assertEquals(11, price, 0);
+        assertEquals( 70.2, price, 0 );
     }
 
     @Test
-    public void studentSixOrMoreTickets() {
-        Order order = new Order(1, true);
+    public void calculatePriceForSevenOnWeekend()
+    {
+        Order orderForFive = new Order(1, false);
 
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 3));
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 4));
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 5));
-        order.addSeatReservation(new MovieTicket(msWeekday, false, 1, 6));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 3));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 4));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 5));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 6));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 7));
 
-        double price = order.calculatePrice();
+        double price = orderForFive.calculatePrice();
 
-        assertEquals(27, price, 0);
+        assertEquals( 81.9, price, 0 );
+    }
+    @Test
+    public void calculatePriceTwoForOneOnWeekdayPremium()
+    {
+        Order orderForTwo = new Order(1, false);
+
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
+
+        double price = orderForTwo.calculatePrice();
+
+        assertEquals( 12, price, 0 );
     }
 
     @Test
-    public void sixOrMoreTickets() {
-        Order order = new Order(1, false);
+    public void calculatePriceThreeForTwoOnWeekdayPremium()
+    {
+        Order orderForTwo = new Order(1, false);
 
-        order.addSeatReservation(new MovieTicket(msWeekend, true, 1, 1));
-        order.addSeatReservation(new MovieTicket(msWeekend, true, 1, 2));
-        order.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
-        order.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
-        order.addSeatReservation(new MovieTicket(msWeekend, true, 1, 5));
-        order.addSeatReservation(new MovieTicket(msWeekend, true, 1, 6));
-        order.addSeatReservation(new MovieTicket(msWeekend, true, 1, 7));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 3));
 
-        double price = order.calculatePrice();
+        double price = orderForTwo.calculatePrice();
 
-        assertEquals(100.8, price, 0);
+        assertEquals( 24, price, 0 );
     }
 
-//    @Test
-//    public void calculatePriceTwoForOneOnWeekday()
-//    {
-//        Order orderForTwo = new Order(1, false);
-//
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
-//
-//        double price = orderForTwo.calculatePrice();
-//
-//        assertEquals( 9.0, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceThreeForTwoOnWeekday()
-//    {
-//        Order orderForTwo = new Order(1, false);
-//
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 3));
-//
-//        double price = orderForTwo.calculatePrice();
-//
-//        assertEquals( 18.0, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceStudentTwoForOne()
-//    {
-//
-//        Order orderForTwo = new Order(1, true);
-//
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
-//
-//        double price = orderForTwo.calculatePrice();
-//
-//        assertEquals( 9.0, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceStudentThreeForTwo()
-//    {
-//        Order orderForTwo = new Order(1, true);
-//
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 1));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 2));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, false, 1, 3));
-//
-//        double price = orderForTwo.calculatePrice();
-//
-//        assertEquals( 18.0, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceForFiveOnWeekend()
-//    {
-//        Order orderForFive = new Order(1, false);
-//
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 3));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 4));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 5));
-//
-//        double price = orderForFive.calculatePrice();
-//
-//        assertEquals( 65, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceForSixOnWeekend()
-//    {
-//        Order orderForFive = new Order(1, false);
-//
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 3));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 4));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 5));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 6));
-//
-//        double price = orderForFive.calculatePrice();
-//
-//        assertEquals( 70.2, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceForSevenOnWeekend()
-//    {
-//        Order orderForFive = new Order(1, false);
-//
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 3));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 4));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 5));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 6));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 7));
-//
-//        double price = orderForFive.calculatePrice();
-//
-//        assertEquals( 81.9, price, 0 );
-//    }
-//    @Test
-//    public void calculatePriceTwoForOneOnWeekdayPremium()
-//    {
-//        Order orderForTwo = new Order(1, false);
-//
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
-//
-//        double price = orderForTwo.calculatePrice();
-//
-//        assertEquals( 12, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceThreeForTwoOnWeekdayPremium()
-//    {
-//        Order orderForTwo = new Order(1, false);
-//
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 3));
-//
-//        double price = orderForTwo.calculatePrice();
-//
-//        assertEquals( 24, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceStudentTwoForOnePremium()
-//    {
-//
-//        Order orderForTwo = new Order(1, true);
-//
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
-//
-//        double price = orderForTwo.calculatePrice();
-//
-//        assertEquals( 11, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceStudentThreeForTwoPremium()
-//    {
-//        Order orderForTwo = new Order(1, true);
-//
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
-//        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 3));
-//
-//        double price = orderForTwo.calculatePrice();
-//
-//        assertEquals( 22, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceForFiveOnWeekendPremium()
-//    {
-//        Order orderForFive = new Order(1, false);
-//
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 1));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 2));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 5));
-//
-//        double price = orderForFive.calculatePrice();
-//
-//        assertEquals( 80, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceForSixOnWeekendPremium()
-//    {
-//        Order orderForFive = new Order(1, false);
-//
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 1));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 2));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 5));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 6));
-//
-//        double price = orderForFive.calculatePrice();
-//
-//        assertEquals( 86.4, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePriceForSevenOnWeekendPremium()
-//    {
-//        Order orderForFive = new Order(1, false);
-//
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 1));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 2));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 5));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 6));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 7));
-//
-//        double price = orderForFive.calculatePrice();
-//
-//        assertEquals( 100.8, price, 0 );
-//    }
-//
-//    @Test
-//    public void calculatePricePremiumMix()
-//    {
-//        Order orderForFive = new Order(1, false);
-//
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
-//        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
-//
-//        double price = orderForFive.calculatePrice();
-//
-//        assertEquals( 58, price, 0 );
-//    }
+    @Test
+    public void calculatePriceStudentTwoForOnePremium()
+    {
+
+        Order orderForTwo = new Order(1, true);
+
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
+
+        double price = orderForTwo.calculatePrice();
+
+        assertEquals( 11, price, 0 );
+    }
+
+    @Test
+    public void calculatePriceStudentThreeForTwoPremium()
+    {
+        Order orderForTwo = new Order(1, true);
+
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 1));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 2));
+        orderForTwo.addSeatReservation(new MovieTicket(msWeekday, true, 1, 3));
+
+        double price = orderForTwo.calculatePrice();
+
+        assertEquals( 22, price, 0 );
+    }
+
+    @Test
+    public void calculatePriceForFiveOnWeekendPremium()
+    {
+        Order orderForFive = new Order(1, false);
+
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 1));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 2));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 5));
+
+        double price = orderForFive.calculatePrice();
+
+        assertEquals( 80, price, 0 );
+    }
+
+    @Test
+    public void calculatePriceForSixOnWeekendPremium()
+    {
+        Order orderForFive = new Order(1, false);
+
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 1));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 2));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 5));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 6));
+
+        double price = orderForFive.calculatePrice();
+
+        assertEquals( 86.4, price, 0 );
+    }
+
+    @Test
+    public void calculatePriceForSevenOnWeekendPremium()
+    {
+        Order orderForFive = new Order(1, false);
+
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 1));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 2));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 5));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 6));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 7));
+
+        double price = orderForFive.calculatePrice();
+
+        assertEquals( 100.8, price, 0 );
+    }
+
+    @Test
+    public void calculatePricePremiumMix()
+    {
+        Order orderForFive = new Order(1, false);
+
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 1));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, false, 1, 2));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 3));
+        orderForFive.addSeatReservation(new MovieTicket(msWeekend, true, 1, 4));
+
+        double price = orderForFive.calculatePrice();
+
+        assertEquals( 58, price, 0 );
+    }
 }
